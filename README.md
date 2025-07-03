@@ -1,73 +1,103 @@
-# Customer Feedback Analyzer
+# Echoes Of Emotions
 
 ## Overview
-Customer Feedback Analyzer is a Python application that uses Natural Language Processing (NLP) to analyze customer feedback. It performs sentiment analysis and extracts key phrases to summarize what customers liked and disliked based on their feedback.
+Echoes Of Emotions is a Python application that uses Natural Language Processing (NLP) to analyze customer feedback. It performs sentiment analysis and extracts key phrases to summarize what customers liked and disliked. The project includes a Streamlit web interface for an interactive and visually appealing user experience.
 
 ## Features
-- **Sentiment Analysis**: Uses NLTK's VADER (Valence Aware Dictionary and sEntiment Reasoner) to classify feedback as positive, negative, or neutral.
-- **Phrase Extraction**: Identifies and summarizes key noun phrases from feedback to highlight liked and disliked aspects.
-- **Interactive Interface**: Accepts user input for feedback and provides a concise summary of sentiment and key points.
+- **Sentiment Analysis**: Uses NLTK's VADER to classify feedback as positive, negative, or neutral with detailed sentiment scores.
+- **Phrase Extraction**: Identifies and summarizes key noun phrases for liked and disliked aspects using NLTK's chunking and frequency analysis.
+- **Streamlit Interface**: Provides a user-friendly web interface (`streamlit_app.py`) with emoji-based sentiment visualization and formatted summaries.
 
 ## Requirements
 - Python 3.6 or higher
-- NLTK library (`pip install nltk`)
+- Virtualenv (recommended for virtual environment setup)
+- Required Python packages:
+  - `nltk` (`pip install nltk`)
+  - `streamlit` (`pip install streamlit`)
 
 ## Installation
-1. Clone or download the repository:
+
+### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd echoes-of-emotions
+```
+
+### Step 2: Create a Virtual Environment
+1. Create a virtual environment to isolate dependencies:
    ```bash
-   git clone <repository-url>
-   cd customer-feedback-analyzer
+   python -m venv venv
    ```
-2. Install the required dependencies:
-   ```bash
-   pip install nltk
-   ```
-3. Run the script to automatically download required NLTK resources (`vader_lexicon`, `punkt`, `stopwords`, `averaged_perceptron_tagger`).
+2. Activate the virtual environment:
+   - **Windows**:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - **MacOS/Linux**:
+     ```bash
+     source venv/bin/activate
+     ```
+
+### Step 3: Install Dependencies
+Install the required Python packages:
+```bash
+pip install nltk streamlit
+```
+
+### Step 4: Download NLTK Resources
+The application automatically downloads required NLTK resources (`vader_lexicon`, `punkt`, `stopwords`, `averaged_perceptron_tagger`) on first run. Alternatively, you can download them manually:
+```python
+import nltk
+nltk.download('vader_lexicon')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+```
 
 ## Usage
-1. Run the script:
+
+### Running the Streamlit App
+1. Ensure the virtual environment is activated.
+2. Run the Streamlit app:
    ```bash
-   python customer_feedback_analyzer.py
+   streamlit run streamlit_app.py
    ```
-2. Enter customer feedback when prompted.
-3. The program will output:
-   - The overall sentiment (positive, negative, or neutral) with a compound score.
-   - A summary of liked and disliked aspects extracted from the feedback.
+3. Open your web browser and navigate to the URL provided by Streamlit (typically `http://localhost:8501`).
+4. Enter customer feedback in the text area, click the "Analyze" button, and view the sentiment analysis (with emoji and color-coded output) and summary of liked/disliked aspects.
 
 ### Example
-**Input:**
+**Input Feedback:**
 ```
 The product quality is excellent, and the customer service was very helpful. However, the delivery was slow and packaging was damaged.
 ```
 
-**Output:**
-```
-Sentiment: neutral (Score: 0.12)
-Summary of Customer Feedback:
-Liked: product quality, customer service
-Disliked: delivery, packaging
-```
+**Output in Streamlit Interface:**
+- **Sentiment**: Neutral 😐 (Score: 0.12)
+- **Detailed Scores**:
+  - Negative: 0.123
+  - Neutral: 0.456
+  - Positive: 0.421
+  - Compound: 0.123
+- **Summary**:
+  - **👍 Liked**: product quality, customer service
+  - **👎 Disliked**: delivery, packaging
 
-## Code Structure
-- **CustomerFeedbackAnalyzer**: Main class handling sentiment analysis and summary generation.
-  - `analyze_sentiment`: Performs sentiment analysis using VADER.
-  - `generate_summary`: Extracts key noun phrases for liked and disliked aspects using NLTK's chunking and frequency analysis.
-  - `analyze_feedback`: Combines sentiment analysis and summary generation.
-- **main**: Entry point for user interaction.
+## Project Structure
+- `nlp.py`: Contains the `CustomerFeedbackAnalyzer` class for sentiment analysis and phrase extraction.
+- `streamlit_app.py`: Streamlit web interface for user interaction, displaying sentiment results and summaries.
+- `venv/`: Virtual environment directory (created after setup).
+- `README.md`: This file, providing project documentation.
 
 ## Dependencies
 - **NLTK**: For sentiment analysis, tokenization, stopword removal, part-of-speech tagging, and chunking.
-  - Downloads required NLTK data: `vader_lexicon`, `punkt`, `stopwords`, `averaged_perceptron_tagger`.
+- **Streamlit**: For building the interactive web interface.
 
 ## Limitations
 - Requires internet access on first run to download NLTK resources.
-- Phrase extraction is based on simple noun phrase chunking and may not capture all nuances in complex feedback.
-- Sentiment analysis is based on VADER, which may not handle sarcasm or context-specific sentiments perfectly.
+- Phrase extraction relies on simple noun phrase chunking, which may miss nuanced or complex feedback.
+- VADER sentiment analysis may not fully capture sarcasm or context-specific sentiments.
 
 ## Future Improvements
-- Enhance phrase extraction with more sophisticated NLP techniques (e.g., dependency parsing).
+- Enhance phrase extraction with advanced NLP techniques (e.g., dependency parsing).
 - Add support for batch processing of multiple feedback entries.
-- Integrate with a web interface for easier user interaction.
-
-## License
-This project is licensed under the MIT License.
+- Improve the Streamlit interface with additional visualizations (e.g., sentiment trend charts).
